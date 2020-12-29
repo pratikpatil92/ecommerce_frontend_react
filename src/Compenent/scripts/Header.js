@@ -22,6 +22,7 @@ class Header extends Component {
     constructor(props){
         super();
         this.state={isOpen:false, 
+          url:"product/"
         };
         this.toggle = this.toggle.bind(this);
 
@@ -38,6 +39,9 @@ class Header extends Component {
     //     this.props.onLogout(this.props.history);
     // }
 
+    onsub = ()=>{
+      this.setState({url:"product/"})
+    }
     
     
     render() {
@@ -69,7 +73,7 @@ class Header extends Component {
                     <DropdownMenu right>
                       {all_category.all_category.map((el,index)=>(
                         <DropdownItem>
-                        <Link className="nav-link" to={`product/${el.name}`}>{el.name}</Link>
+                        <Link className="nav-link" to={`${this.state.url}+${el.name}`} onClick={this.onsub}>{el.name}</Link>
                         </DropdownItem>
 
                       ))}
