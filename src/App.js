@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch, Redirect, withRouter} from 'reac
 
 import Header from './Compenent/scripts/Header';
 import Home from './Compenent/scripts/ecommerce/Home'
+import Product from './Compenent/scripts/ecommerce/Products'
 
 
 
@@ -15,6 +16,7 @@ function App() {
       <Router>
         <Header></Header>
         <Route exact path="/" component={Home}></Route>
+        <Route exact path="/product/:name" component={Product}></Route>
       </Router>
 
     </Provider>

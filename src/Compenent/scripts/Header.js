@@ -12,15 +12,25 @@ import {
   DropdownItem,
   } from 'reactstrap';
 
-import {Link, withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getAllCategory} from './../Redux/ecommerce/categoryAction';
+import { Spinner } from 'reactstrap';
 
-export default class Header extends Component {
+
+class Header extends Component {
     constructor(props){
         super();
         this.state={isOpen:false, 
-                    name:""};
+        };
         this.toggle = this.toggle.bind(this);
+
     }
+
+    componentDidMount(){
+      this.props.getAllCategory();
+    }
+
     toggle(){
         this.setState({isOpen:!this.state.isOpen});
     }
@@ -31,7 +41,16 @@ export default class Header extends Component {
     
     
     render() {
-        const {isOpen, name}=this.state;
+        const {isOpen}=this.state;
+        const {all_category}=this.props;
+        if(all_category.data_state=="NOT_INITIALIZE"){
+          return(
+            <div className="container text-center">
+                  <Spinner color="primary" />
+            </div>
+          )
+        }else if(all_category.data_state=="FETCH_SUCCESS"){
+
         return (
             <div>
             <Navbar color="light" light expand="md">
@@ -43,32 +62,19 @@ export default class Header extends Component {
                   <NavItem>
                     <Link className="nav-link" to="/">Home</Link>
                   </NavItem>
-                  <NavItem>
-                    <Link className="nav-link" to="/top-rated-movie">Products</Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link className="nav-link" to="/up-coming-movie"></Link>
-                  </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>
                         Category
                     </DropdownToggle>
                     <DropdownMenu right>
+                      {all_category.all_category.map((el,index)=>(
                         <DropdownItem>
-                        Mobile
+                        <Link className="nav-link" to={`product/${el.name}`}>{el.name}</Link>
                         </DropdownItem>
-                        <DropdownItem>
-                        Shirts
-                        </DropdownItem>
-                        <DropdownItem>
-                        T-Shirts
-                        </DropdownItem>
-                        <DropdownItem>
-                        Jeans
-                        </DropdownItem>
-                        <DropdownItem>
-                        Kurtis
-                        </DropdownItem>
+
+                      ))}
+                        
+                        
                         
                     </DropdownMenu>
                     </UncontrolledDropdown>
@@ -78,6 +84,12 @@ export default class Header extends Component {
               </div>
             </Navbar>
           </div>
-        )
+        )}
     }
 }
+
+const mapStateToProps = state=>({
+  all_category:state.all_category
+})
+
+export default connect (mapStateToProps,{getAllCategory})(withRouter(Header));
