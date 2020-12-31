@@ -10,6 +10,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  NavbarText
   } from 'reactstrap';
 
 import {Link, withRouter} from 'react-router-dom';
@@ -62,7 +63,7 @@ class Header extends Component {
               <NavbarBrand><Link className="navbar-brand" to="/">AllShop</Link></NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={isOpen} navbar>
-                <Nav  navbar>
+                <Nav  navbar className="mr-auto">
                   <NavItem>
                     <Link className="nav-link" to="/">Home</Link>
                   </NavItem>
@@ -82,8 +83,14 @@ class Header extends Component {
                         
                     </DropdownMenu>
                     </UncontrolledDropdown>
+                    <NavItem className="ml-auto">
+                      <Link className="nav-link" to="/login">Login</Link>
+                    </NavItem>
+                    
+                    
                   
                 </Nav>
+                <NavbarText>Simple Text</NavbarText>
               </Collapse>
               </div>
             </Navbar>
